@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Split Landing Page
+    </title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0 ;
+      }
+      body, html {
+        height: 100%;
+        width: 100%;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        position: relative;
+      }
+      .split {
+        height: 100%;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .left {
+        background: url('ps.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        transition: width 1s ease-in-out;
+      }
+      .left::before {
+        content: '';
+        background-color: rgba(87, 84, 236, 0.7);
+        width: 100%;
+        height: 100%;
+      }
+      .right {
+        background: url('xbox.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        transition: width 1s ease-in-out;
+      }
+      .right::before {
+        content: '';
+        background-color: rgba(43, 43, 43, 0.8);
+        width: 100%;
+        height: 100%;
+      }
+      .split h1 {
+        color: white;
+        font-size: 60px;
+        position: absolute;
+        top: 25%;
+      }
+      .btn {
+        width: 240px;
+        height:70px;
+        border: white solid 3px;
+        text-decoration: none;
+        color: white;
+        text-align: center;
+        line-height: 70px;
+        font-size: 20px;
+        position: absolute;
+        top: calc(25% + 130px);
+        text-transform: uppercase;
+      }
+      .left .btn:hover {
+        background-color: rgba(87, 84, 236, 1);
+        border: none;
+      }
+      .right .btn:hover {
+        background-color: rgba(28, 122, 28, 1);
+        border: none;
+      }
+
+      .hover-left .split:first-child {
+        width: 70%;
+      }
+      .hover-left .split:last-child {
+        width: 30%;
+      }
+
+      .hover-right .split:first-child {
+        width: 30%;
+      }
+      .hover-right .split:last-child {
+        width: 70%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="split left">
+        <h1>Playstation 5</h1>
+        <a href="#" class="btn">Buy Now</a>
+      </div>
+      <div class="split right">
+        <h1>XBox Series X</h1>
+        <a href="#" class="btn">Buy Now</a>
+      </div>
+    </div>
+
+    <script>
+      const left = document.querySelector('.left')
+      const right = document.querySelector('.right');
+      const container = document.querySelector('.container')
+
+      left.addEventListener('mouseenter', () => container.classList.add('hover-left'))
+      left.addEventListener('mouseleave', () => container.classList.remove('hover-left'))
+
+      right.addEventListener('mouseenter', () => container.classList.add('hover-right'))
+      right.addEventListener('mouseleave', () => container.classList.remove('hover-right'))
+    </script>
+  </body>
+</html>
