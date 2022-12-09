@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2b88f0;
+      }
+      .container {
+        color: white;
+        width: 500px;
+      }
+      textarea {
+        margin: 20px 0;
+        width: 100%;
+        border: none;
+        padding: 10px;
+        height: 80px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      .tags {
+        width: 100%;
+        text-align: left;
+        display: flex;
+        height: 40px;
+      }
+      .tag {
+        background-color: #f0932b;
+        padding: 5px 15px;
+        border-radius: 15px;
+        margin-right: 10px;
+      }
+      h3 {
+        text-align: center;
+      }
+      .highlight {
+        background-color: #273c75;
+      }
+    </style>
+    <title>Random Choice Picker</title>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Enter all of the choices divided by a comma (','). <br> Press enter when you're done</h3>
+      <textarea placeholder="Enter choices here..." id="textarea"></textarea>
+
+      <div id="tags"></div>
+    </div>
+
+    <script>
+      let textarea = document.getElementById('textarea')
+      let tagsContainer = document.getElementById('tags')
+      textarea.focus()
+      textarea.addEventListener('keyup', e => {
+        createTags(e.target.value)
+        if (e.key == 'Enter') {
+          setTimeout(() => {
+            e.target.value = ''
+          }, 10)
+
+          randomSelect()
+        }
+      })
+      function createTags(str) {
+        let tags = str.split(',').filter(tag => tag.trim() != '').map(tag => tag.trim())
+        tagsContainer.innerHTML = ''
+        tags.forEach(tag => {
+          const newTag = document.createElement('span')
+          newTag.classList.add('tag')
+          newTag.innerText = tag
+          tagsContainer.appendChild(newTag)
+        })
+      }
+
+      function randomSelect() {
+        const interval = setInterval(() => {
+          let selectedTag = pickRandomTag()
+          if (selectedTag != undefined) {
+            highlight(selectedTag)
+            setTimeout(() => {
+              unhighlight(selectedTag)
+            }, 100)
+          }
+        }, 100)
+
+        setTimeout(() => {
+          clearInterval(interval)
+          setTimeout(() => {
+            const selectTag = pickRandomTag()
+            highlight(selectTag)
+          }, 100)
+        }, 3000)
+      }
+
+      function pickRandomTag() {
+        let tags = document.querySelectorAll('.tag')
+        return tags[Math.floor(Math.random() * tags.length)]
+      }
+
+      function highlight(tag) {
+        tag.classList.add('highlight')
+      }
+      function unhighlight(tag) {
+        tag.classList.remove('highlight')
+      }
+    </script>
+  </body>
+</html>
