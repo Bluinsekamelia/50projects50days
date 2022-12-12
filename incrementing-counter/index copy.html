@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <title>Increment Counter</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #8e44ad;
+      }
+      .counter-container {
+        text-align: center;
+        color: white;
+        margin: 0 50px;
+      }
+      .fab {
+        margin-bottom: 20px;
+      }
+      .counter {
+        margin-bottom: 10px;
+        font-size: 30px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="counter-container">
+      <i class="fab fa-twitter fa-3x"></i>
+      <div class="counter" data-target="12000"></div>
+      <span>Twitter Followers</span>
+    </div>
+
+    <div class="counter-container">
+      <i class="fab fa-youtube fa-3x"></i>
+      <div class="counter" data-target="5000"></div>
+      <span>YouTube Subscribers</span>
+    </div>
+
+    <div class="counter-container">
+      <i class="fab fa-facebook fa-3x"></i>
+      <div class="counter" data-target="7500"></div>
+      <span>Facebook Fans</span>
+    </div>
+    <script>
+      const counters = document.querySelectorAll('.counter')
+
+      counters.forEach(counter => {
+        counter.innerText = '0'
+        let start = 0
+        const target = counter.getAttribute('data-target')
+        const increment = Number(target) / 200
+        const interval = setInterval(() => {
+          start += increment
+          counter.innerText = Math.ceil(start)
+          if (start == target) {
+            clearInterval(interval)
+          }
+        }, 10)
+      })
+    </script>
+  </body>
+</html>
