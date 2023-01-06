@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
+    <title>Background Slider</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 1s;
+      }
+      body::before {
+        content: '';
+        background-color: rgba(0, 0, 0, 0.7);
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        z-index: -100;
+      }
+      .slider-container {
+        width: 70%;
+        height: 70%;
+        position: relative;
+      }
+      .arrow {
+        position: absolute;
+        top: calc(50% - 40px);
+        width: 70px;
+        height: 80px;
+        border: 2px solid orange;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, 0);
+        font-size: 35px;
+        color: white;
+      }
+      .right-arrow {
+        right: -68px;
+      }
+      .left-arrow {
+        left: -68px;
+      }
+      .slide {
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        opacity: 0;
+        position: absolute;
+        background-size: cover;
+        transition: 1s ease;
+      }
+      .slide.active {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slider-container">
+      <div
+        class="slide active"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80');
+        "
+      ></div>
+      <div
+        class="slide"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1934&q=80');
+        "
+      ></div>
+
+      <div
+        class="slide"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1495467033336-2effd8753d51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80');
+        "
+      ></div>
+
+      <div
+        class="slide"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1522735338363-cc7313be0ae0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2689&q=80');
+        "
+      ></div>
+
+      <div
+        class="slide"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1559087867-ce4c91325525?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80');
+        "
+      ></div>
+
+      <button class="arrow left-arrow" id="left">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+
+      <button class="arrow right-arrow" id="right">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+    <script>
+      const body = document.body
+      const slides = document.querySelectorAll('.slide')
+      const rightBtn = document.getElementById('right')
+      const leftBtn = document.getElementById('left')
+
+      let activeSlide = 0
+      function setBgToBody() {
+        body.style.backgroundImage = slides[activeSlide].style.backgroundImage
+      }
+      setBgToBody()
+      function setActiveSlide() {
+        slides.forEach(slide => slide.classList.remove('active'))
+        slides[activeSlide].classList.add('active')
+      }
+      rightBtn.addEventListener('click', () => {
+        activeSlide++
+        if (activeSlide > slides.length - 1) {
+          activeSlide = 0
+        }
+        setBgToBody()
+        setActiveSlide()
+      })
+      leftBtn.addEventListener('click', () => {
+        activeSlide--
+        if (activeSlide < 0) {
+          activeSlide = slides.length - 1
+        }
+        setBgToBody()
+        setActiveSlide()
+      })
+    </script>
+  </body>
+</html>
