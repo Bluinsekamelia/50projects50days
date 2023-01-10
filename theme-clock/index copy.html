@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theme Clock</title>
+    <style>
+      :root {
+        --mode-black: #000;
+        --light-mode: #fff;
+      }
+      html.dark {
+        --mode-black: #fff;
+        --light-mode: #000;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--light-mode);
+        transition: 0.5s linear;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .toggle {
+        width: 90px;
+        height: 30px;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--mode-black);
+        color: var(--light-mode);
+      }
+      .clock-container {
+        margin-top: 100px;
+      }
+      .clock {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        margin-bottom: 50px;
+      }
+      .needle {
+        width: 4px;
+        height: 65px;
+        background-color: var(--mode-black);
+        position: absolute;
+        top: calc(50% - 2px);
+        left: calc(50% - 2px);
+        transition: 0.5s ease-in;
+      }
+      .needle.hour {
+        transform-origin: 50% 0%;
+      }
+      .needle.minute {
+        height: 100px;
+        transform-origin: 50% 0%;
+      }
+      .needle.second {
+        height: 100px;
+        background-color: red;
+        transform: rotate(0deg);
+        transform-origin: 50% 0%;
+      }
+      .center-point {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 3px solid red;
+        box-sizing: border-box;
+        position: absolute;
+        top: calc(50% - 5px);
+        left: calc(50% - 5px);
+        background-color: var(--mode-black);
+      }
+      .time {
+        text-align: center;
+        font-size: 40px;
+        color: var(--mode-black);
+      }
+      .date {
+        text-align: center;
+        color: dimgray;
+      }
+      .circle {
+        height: 18px;
+        width: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 18px;
+        transition: all 0.5s ease-in;
+        font-size: 12px;
+        background-color: var(--mode-black);
+        color: var(--light-mode);
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Inspired by this dribbble shot https://dribbble.com/shots/5958443-Alarm-clock -->
+
+    <button class="toggle">Dark mode</button>
+
+    <div class="clock-container">
+      <div class="clock">
+        <div class="needle hour"></div>
+        <div class="needle minute"></div>
+        <div class="needle second"></div>
+        <div class="center-point"></div>
+      </div>
+
+      <div class="time"></div>
+      <div class="date"></div>
+    </div>
+
+    <script>
+      const toggle = document.querySelector(".toggle");
+
+      toggle.addEventListener("click", (e) => {
+        const html = document.querySelector("html");
+        if (html.classList.contains("dark")) {
+          html.classList.remove("dark");
+          e.target.innerHTML = "Dark Mode";
+        } else {
+          html.classList.add("dark");
+          e.target.innerHTML = "Light Mode";
+        }
+      });
+
+      const hourEle = document.querySelector(".hour");
+      const minuteEle = document.querySelector(".minute");
+      const secondEle = document.querySelector(".second");
+      const timeEle = document.querySelector(".time");
+      const dateEle = document.querySelector(".date");
+      const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      function setTime() {
+        const time = new Date();
+        const day = time.getDay();
+        const month = time.getMonth();
+        const year = time.getFullYear();
+        const seconds = time.getSeconds();
+        const minutes = time.getMinutes();
+        const hours = time.getHours();
+        const date = time.getDate();
+        const hoursForClock = hours >= 13 ? hours % 12 : hours;
+
+        secondEle.style.transform = `translate(0, 0) rotate(${
+          scale(seconds, 0, 60, 0, 360) + 180
+        }deg)`;
+        minuteEle.style.transform = `translate(0, 0) rotate(${
+          scale(minutes, 0, 60, 0, 360) + 180
+        }deg)`;
+        hourEle.style.transform = `translate(0, 0) rotate(${scale(
+          hoursForClock,
+          0,
+          12,
+          0,
+          360
+        ) + 180 + (minutes / 60) * 30}deg)`;
+
+        timeEle.innerHTML = `${hours < 10 ? '0' + hours : hours} : ${minutes < 10 ? '0' + minutes : minutes} : ${seconds < 10 ? '0' + seconds : seconds}`;
+        dateEle.innerHTML = `${days[day]}, ${months[month]} <span class="circle">${date}</span>`;
+      }
+      function scale(num, in_min, in_max, out_min, out_max) {
+        return (
+          ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+        );
+      }
+      setTime();
+      setInterval(setTime, 1000);
+    </script>
+  </body>
+</html>
