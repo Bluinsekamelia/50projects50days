@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Button Ripple Effect</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .ripple {
+        width: 144px;
+        height: 58px;
+        background-color: purple;
+        color: white;
+        font-size: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+      .circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        background-color: white;
+        position: absolute;
+        animation: scale 0.5s ease-out;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      @keyframes scale {
+        to {
+          transform: translate(-50%, 50%) scale(3);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="ripple">Click Me</button>
+    <script>
+      const button = document.querySelector('.ripple');
+      button.addEventListener('click', (e) => {
+        const x = e.pageX
+        const y = e.pageY
+        
+        const buttonLeft = e.target.offsetLeft
+        const buttonTop = e.target.offsetTop
+
+        const circleX = x - buttonLeft
+        const circleY = y - buttonTop
+
+        const circle = document.createElement('span')
+        circle.classList.add('circle')
+        circle.style.top = circleY + 'px'
+        circle.style.left = circleX + 'px'
+        button.appendChild(circle)
+        setTimeout(() => circle.remove(), 500)
+      })
+    </script>
+  </body>
+</html>
